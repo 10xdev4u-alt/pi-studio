@@ -16,7 +16,8 @@ COPY tsconfig.base.json ./
 COPY packages/shared/package.json ./packages/shared/
 COPY packages/daemon/package.json ./packages/daemon/
 COPY packages/browser/package.json ./packages/browser/
-RUN npm ci --ignore-scripts
+# Install with scripts enabled so better-sqlite3's prebuilt binary is fetched
+RUN npm ci
 
 # Build shared first
 COPY packages/shared/ ./packages/shared/
@@ -57,13 +58,14 @@ ENV NODE_ENV=production
 ENV PI_STUDIO_HOST=0.0.0.0
 ENV PI_STUDIO_PORT=7331
 ENV NEXT_PUBLIC_WS_URL=ws://localhost:7331/ws
-ENV PI_STUDIO_DB=/data/data.db
+ENV PI_STUDIO_DB=/home/node/.pi-studio/data.db
 ENV PI_STUDIO_BROWSER_PORT=3000
 ENV PI_STUDIO_BROWSER_HOST=0.0.0.0
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # Data dir
-RUN mkdir -p /data && chown -R node:node /data /app
+RUN mkdir -p /data /app/packages/browser/public && chown -R node:node /data /app
+COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 USER node
 WORKDIR /app/packages/daemon
 
@@ -73,5 +75,4 @@ EXPOSE 7331 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD node -e "fetch('http://127.0.0.1:7331/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
-# Start daemon + browser
-CMD ["sh", "-c", "cd /app && node packages/daemon/dist/index.js & cd /app/packages/browser && npx next start -p 3000 -H 0.0.0.0 & wait"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
