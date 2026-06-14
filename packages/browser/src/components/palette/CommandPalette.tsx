@@ -1,9 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { StudioApi } from "@/lib/api";
-
-const api = new StudioApi("");
 
 interface PaletteItem {
   id: string;
