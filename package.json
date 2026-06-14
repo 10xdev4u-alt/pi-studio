@@ -4,7 +4,9 @@
   "private": true,
   "description": "Browser-based multi-agent UI for the pi coding harness",
   "type": "module",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
     "test": "npm test --workspaces --if-present",
@@ -26,5 +28,8 @@
   },
   "engines": {
     "node": ">=22"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.10.1"
   }
 }
