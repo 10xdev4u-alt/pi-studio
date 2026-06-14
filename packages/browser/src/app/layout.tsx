@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, JetBrains_Mono } from "next/font/google";
-import localFont from "next/font/local";
 import "./globals.css";
+import { GlobalChrome } from "@/components/GlobalChrome";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -16,13 +16,6 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
-// Geist is a system-level var; we set it via CSS variable fallback chain.
-const geist = localFont({
-  src: [],
-  variable: "--font-geist-fallback",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   title: "π Studio",
   description: "Multi-agent UI for the pi coding harness",
@@ -30,8 +23,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`dark ${fraunces.variable} ${jetbrains.variable} ${geist.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={`dark ${fraunces.variable} ${jetbrains.variable}`}>
+      <body>
+        <GlobalChrome />
+        {children}
+      </body>
     </html>
   );
 }
