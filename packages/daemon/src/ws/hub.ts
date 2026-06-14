@@ -1,6 +1,5 @@
 import { WebSocketServer, type WebSocket } from "ws";
 import type { EventBus } from "../sessions/event-bus.js";
-import type { Event } from "@pi-studio/shared";
 
 interface Client {
   socket: WebSocket;
