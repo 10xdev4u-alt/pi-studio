@@ -26,7 +26,7 @@ export class SessionTailer {
 
     this.watcher.on("change", () => this.readNew());
     this.watcher.on("add", () => this.readNew());
-    this.watcher.on("error", (err) => this.opts.onError?.(err));
+    this.watcher.on("error", (err: unknown) => this.opts.onError?.(err instanceof Error ? err : new Error(String(err))));
   }
 
   private readNew(): void {

@@ -41,7 +41,7 @@ export const useStore = create<RunState>((set) => ({
       for (const s of summaries) {
         const existing = next.get(s.id);
         if (existing) next.set(s.id, { ...existing, ...s } as Run);
-        else next.set(s.id, s as Run);
+        else next.set(s.id, { ...s, totalInput: 0, totalOutput: 0, totalCost: 0 } as Run);
       }
       return { runs: next };
     });

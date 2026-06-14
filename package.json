@@ -11,12 +11,13 @@
     "build": "npm run build -w @pi-studio/shared && npm run build --workspaces --if-present",
     "test": "npm test --workspaces --if-present",
     "lint": "eslint . --ext .ts,.tsx",
-    "typecheck": "tsc -p tsconfig.base.json --noEmit && npm run typecheck --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
     "dev:daemon": "npm run dev -w @pi-studio/daemon",
     "dev:browser": "npm run dev -w @pi-studio/browser",
     "dev": "concurrently -n daemon,browser -c blue,magenta \"npm:dev:daemon\" \"npm:dev:browser\""
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^22.10.0",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
     "@typescript-eslint/parser": "^8.18.0",
