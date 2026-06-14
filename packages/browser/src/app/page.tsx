@@ -1,3 +1,4 @@
+"use client";
 import { Shell } from "@/components/layout/Shell";
 import { EventBridge } from "@/components/EventBridge";
 import { ActiveAgentCard } from "@/components/run/ActiveAgentCard";
