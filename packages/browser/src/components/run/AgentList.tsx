@@ -1,9 +1,9 @@
 "use client";
-import { useStore } from "@/lib/store";
+import { useEvents, useStore } from "@/lib/store";
 import { AgentAvatar } from "./AgentAvatar";
 
 export function AgentList({ runId }: { runId: string }) {
-  const events = useStore((s) => s.events.get(runId) ?? []);
+  const events = useEvents(runId);
   const activeRun = useStore((s) => s.runs.get(runId));
 
   const agents = new Map<string, { name: string; status: "queued" | "running" | "done" | "failed" }>();

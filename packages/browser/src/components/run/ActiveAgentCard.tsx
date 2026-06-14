@@ -1,9 +1,9 @@
 "use client";
-import { useStore } from "@/lib/store";
+import { useEvents } from "@/lib/store";
 import { AgentAvatar } from "./AgentAvatar";
 
 export function ActiveAgentCard({ runId }: { runId: string }) {
-  const events = useStore((s) => s.events.get(runId) ?? []);
+  const events = useEvents(runId);
   const lastThinking = [...events].reverse().find((e) => e.type === "thinking");
   const lastTool = [...events].reverse().find((e) => e.type === "tool_call");
 

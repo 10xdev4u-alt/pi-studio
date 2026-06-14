@@ -1,9 +1,9 @@
 "use client";
-import { useStore } from "@/lib/store";
+import { useEvents, useActiveRunId } from "@/lib/store";
 
 export function ApprovalModal() {
-  const activeRunId = useStore((s) => s.activeRunId);
-  const events = useStore((s) => (activeRunId ? s.events.get(activeRunId) ?? [] : []));
+  const activeRunId = useActiveRunId();
+  const events = useEvents(activeRunId);
   const lastApproval = [...events].reverse().find((e) => e.type === "approval_required");
   if (!lastApproval || lastApproval.type !== "approval_required") return null;
 

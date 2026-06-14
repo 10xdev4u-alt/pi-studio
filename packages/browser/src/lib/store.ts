@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { useShallow } from "zustand/react/shallow";
 import type { Event, Run, RunSummary } from "@pi-studio/shared";
 
 interface RunState {
@@ -30,8 +31,8 @@ export const useStore = create<RunState>((set) => ({
   appendEvent(event) {
     set((state) => {
       const next = new Map(state.events);
-      const list = next.get(event.runId) ?? [];
-      next.set(event.runId, [...list, event]);
+      const list = next.get(event.runId);
+      next.set(event.runId, list ? [...list, event] : [event]);
       return { events: next };
     });
   },
@@ -47,3 +48,28 @@ export const useStore = create<RunState>((set) => ({
     });
   },
 }));
+
+// Stable empty array reference for selectors (prevents infinite loop with useSyncExternalStore)
+export const EMPTY_EVENTS: readonly Event[] = Object.freeze([]) as readonly Event[];
+
+/**
+ * Hook to get the events array for a given runId.
+ * Returns a stable reference (EMPTY_EVENTS) when no events exist,
+ * so React's useSyncExternalStore doesn't infinite-loop.
+ */
+export function useEvents(runId: string | null): readonly Event[] {
+  return useStore(
+    useShallow((s) => {
+      if (!runId) return EMPTY_EVENTS;
+      return s.events.get(runId) ?? EMPTY_EVENTS;
+    }),
+  );
+}
+
+export function useRun(runId: string | null): Run | undefined {
+  return useStore((s) => (runId ? s.runs.get(runId) : undefined));
+}
+
+export function useActiveRunId(): string | null {
+  return useStore((s) => s.activeRunId);
+}

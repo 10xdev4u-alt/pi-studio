@@ -1,11 +1,11 @@
 "use client";
 import { ReactFlow, Background } from "reactflow";
 import "reactflow/dist/style.css";
-import { useStore } from "@/lib/store";
+import { useEvents } from "@/lib/store";
 import { getAgentConfig } from "@/lib/agents";
 
 export function Constellation({ runId }: { runId: string }) {
-  const events = useStore((s) => s.events.get(runId) ?? []);
+  const events = useEvents(runId);
   const agents = new Set<string>();
   for (const e of events) {
     if ("agent" in e && typeof e.agent === "string") agents.add(e.agent);

@@ -1,10 +1,10 @@
 "use client";
-import { useStore } from "@/lib/store";
+import { useEvents, useActiveRunId } from "@/lib/store";
 import { Constellation } from "../run/Constellation";
 
 export function RightPanel() {
-  const activeRunId = useStore((s) => s.activeRunId);
-  const events = useStore((s) => (activeRunId ? s.events.get(activeRunId) ?? [] : []));
+  const activeRunId = useActiveRunId();
+  const events = useEvents(activeRunId);
 
   return (
     <div style={{ padding: 16, display: "flex", flexDirection: "column", gap: 16, height: "100%" }}>

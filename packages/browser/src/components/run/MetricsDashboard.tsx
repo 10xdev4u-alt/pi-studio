@@ -1,9 +1,9 @@
 "use client";
-import { useStore } from "@/lib/store";
+import { useEvents } from "@/lib/store";
 import { LineChart, Line, ResponsiveContainer, YAxis } from "recharts";
 
 export function MetricsDashboard({ runId }: { runId: string }) {
-  const events = useStore((s) => s.events.get(runId) ?? []);
+  const events = useEvents(runId);
   const totalIn = events
     .filter((e) => e.type === "usage")
     .reduce((sum, e) => sum + (e.type === "usage" ? e.input : 0), 0);

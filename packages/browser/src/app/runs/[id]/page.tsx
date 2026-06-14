@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { useStore } from "@/lib/store";
+import { useStore, useEvents } from "@/lib/store";
 import { StudioApi } from "@/lib/api";
 import { EventBridge } from "@/components/EventBridge";
 import { AgentList } from "@/components/run/AgentList";
@@ -16,7 +16,7 @@ export default function RunDetailPage() {
   const id = params.id;
   const setRun = useStore((s) => s.setRun);
   const setActive = useStore((s) => s.setActive);
-  const events = useStore((s) => s.events.get(id) ?? []);
+  const events = useEvents(id);
   const [loading, setLoading] = useState(true);
   const [scrubberPos, setScrubberPos] = useState(1);
 
