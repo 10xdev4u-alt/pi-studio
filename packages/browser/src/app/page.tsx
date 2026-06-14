@@ -2,6 +2,7 @@ import { Shell } from "@/components/layout/Shell";
 import { EventBridge } from "@/components/EventBridge";
 import { ActiveAgentCard } from "@/components/run/ActiveAgentCard";
 import { MetricsDashboard } from "@/components/run/MetricsDashboard";
+import { ApprovalModal } from "@/components/run/ApprovalModal";
 import { useStore } from "@/lib/store";
 
 function LiveRun() {
@@ -60,6 +61,7 @@ function LiveRun() {
       </div>
       <ActiveAgentCard runId={activeRunId} />
       <MetricsDashboard runId={activeRunId} />
+      <ApprovalModal />
     </div>
   );
 }
